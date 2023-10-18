@@ -97,6 +97,7 @@ class _CalculatorViewState extends State<CalculatorView> {
               Align(
                 alignment: Alignment.bottomRight,
                 child: SingleChildScrollView(
+                  reverse: true,
                   scrollDirection: Axis.horizontal,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -105,7 +106,7 @@ class _CalculatorViewState extends State<CalculatorView> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           Padding(
-                              padding: const EdgeInsets.all(10.0),
+                              padding: const EdgeInsets.all(5.0),
                               child: Text(result,
                                   textAlign: TextAlign.left,
                                   style: const TextStyle(
@@ -119,10 +120,10 @@ class _CalculatorViewState extends State<CalculatorView> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(20),
+                            padding: const EdgeInsets.all(10),
                             child: Text(equation,
                                 style: const TextStyle(
-                                  fontSize: 40,
+                                  fontSize: 30,
                                   color: Colors.white38,
                                 )),
                           ),
