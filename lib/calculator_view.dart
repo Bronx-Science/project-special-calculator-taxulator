@@ -17,6 +17,7 @@ class _CalculatorViewState extends State<CalculatorView> {
   String expression = "";
   double equationFontSize = 38.0;
   double resultFontSize = 48.0;
+  final horizontal = ScrollController();
 
   buttonPressed(String buttonText) {
     // used to check if the result contains a decimal
@@ -44,6 +45,16 @@ class _CalculatorViewState extends State<CalculatorView> {
           equation = '-$equation';
         } else {
           equation = equation.substring(1);
+        }
+      } else if (buttonText == "sin" || buttonText == "cos") {
+        if (equation == "0" ||
+            equation.endsWith('+') ||
+            equation.endsWith('÷') ||
+            equation.endsWith('%') ||
+            equation.endsWith('-')) {
+          equation = equation + buttonText;
+        } else {
+          equation = '$buttonText($equation)';
         }
       } else if (buttonText == "=") {
         expression = equation;
@@ -96,48 +107,56 @@ class _CalculatorViewState extends State<CalculatorView> {
             children: [
               Align(
                 alignment: Alignment.bottomRight,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(result,
-                                  textAlign: TextAlign.left,
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 80))),
-                          Icon(Icons.more_vert,
-                              color: Theme.of(context).primaryColor, size: 30),
-                          const SizedBox(width: 20),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: Text(equation,
-                                style: const TextStyle(
-                                  fontSize: 40,
-                                  color: Colors.white38,
-                                )),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.backspace_outlined,
+                child: RawScrollbar(
+                  thumbVisibility: true,
+                  thickness: 4,
+                  controller: horizontal,
+                  child: SingleChildScrollView(
+                    reverse: true,
+                    controller: horizontal,
+                    scrollDirection: Axis.horizontal,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(result,
+                                    textAlign: TextAlign.left,
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 60))),
+                            Icon(Icons.more_vert,
                                 color: Theme.of(context).primaryColor,
                                 size: 30),
-                            onPressed: () {
-                              buttonPressed("⌫");
-                            },
-                          ),
-                          const SizedBox(width: 20),
-                        ],
-                      )
-                    ],
+                            const SizedBox(width: 20),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Text(equation,
+                                  style: const TextStyle(
+                                    fontSize: 30,
+                                    color: Colors.white38,
+                                  )),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.backspace_outlined,
+                                  color: Theme.of(context).primaryColor,
+                                  size: 30),
+                              onPressed: () {
+                                buttonPressed("⌫");
+                              },
+                            ),
+                            const SizedBox(width: 20),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
