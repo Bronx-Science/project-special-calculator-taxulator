@@ -22,9 +22,9 @@ class MyApp extends StatelessWidget {
         future: determinePosition(),
         builder: (context, snapshot) {
           if (snapshot.hasData && !snapshot.hasError) {
-            return CalculatorView(location: snapshot.data!.region!);
+            return CalculatorView(location: snapshot.data![0].administrativeArea!);
           } else {
-            return const SafeArea(child: SizedBox(width: 80.0, height: 80.0, child: CircularProgressIndicator()));
+            return const SafeArea(child: SizedBox(width: 80.0, height: 80.0, child: Center(child: CircularProgressIndicator())));
           }
         },
       ),

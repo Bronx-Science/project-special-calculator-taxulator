@@ -1,11 +1,11 @@
-import 'package:geocode/geocode.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 /// Determine the current position of the device.
 ///
 /// When the location services are not enabled or permissions
 /// are denied the `Future` will return an error.
-Future<Address?> determinePosition() async {
+Future<List<Placemark>> determinePosition() async {
   bool serviceEnabled;
   LocationPermission permission;
 
@@ -40,8 +40,6 @@ Future<Address?> determinePosition() async {
   // When we reach here, permissions are granted and we can
   // continue accessing the position of the device.
   Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.medium);
-  GeoCode geoCode = GeoCode();
-  return await geoCode.reverseGeocoding(
-      latitude: position.latitude, longitude: position.longitude);
+      desiredAccuracy: LocationAccuracy.lowest);
+  return placemarkFromCoordinates(position.latitude, position.longitude, localeIdentifier: 'en_US');
 }

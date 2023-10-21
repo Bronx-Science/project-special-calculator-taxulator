@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:real_calculator_app/calc_button.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
+import 'package:real_calculator_app/tax_rates.dart';
 
 class CalculatorView extends StatefulWidget {
   final String location;
@@ -49,7 +50,7 @@ class _CalculatorViewState extends State<CalculatorView> {
         }
       } else if (buttonText == 'tax') {
         if (equation != "0") {
-          equation = '($equation)×1.085';
+          equation = '($equation)×(1.00+${stateSalesTaxRates[widget.location]})';
           print(widget.location);
         }
       } else if (buttonText == "sin" || buttonText == "cos") {
@@ -100,10 +101,7 @@ class _CalculatorViewState extends State<CalculatorView> {
           backgroundColor: Colors.black54,
           leading: Icon(Icons.settings, color: Theme.of(context).primaryColor),
           actions: const [
-            Padding(
-              padding: EdgeInsets.only(top: 18.0),
-              child: Text('DEG', style: TextStyle(color: Colors.white38)),
-            ),
+            Text('DEG', style: TextStyle(color: Colors.white38)),
             SizedBox(width: 20),
           ],
         ),
@@ -146,7 +144,7 @@ class _CalculatorViewState extends State<CalculatorView> {
                               padding: const EdgeInsets.all(20),
                               child: Text(equation,
                                   style: const TextStyle(
-                                    fontSize: 30,
+                                    fontSize: 20,
                                     color: Colors.white38,
                                   )),
                             ),
