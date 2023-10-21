@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
 
 class CalculatorView extends StatefulWidget {
-  const CalculatorView({Key? key}) : super(key: key);
+  final String location;
+  const CalculatorView({Key? key, required this.location}) : super(key: key);
 
   @override
   State<CalculatorView> createState() => _CalculatorViewState();
@@ -45,6 +46,11 @@ class _CalculatorViewState extends State<CalculatorView> {
           equation = '-$equation';
         } else {
           equation = equation.substring(1);
+        }
+      } else if (buttonText == 'tax') {
+        if (equation != "0") {
+          equation = '($equation)×1.085';
+          print(widget.location);
         }
       } else if (buttonText == "sin" || buttonText == "cos") {
         if (equation == "0" ||
@@ -177,6 +183,9 @@ class _CalculatorViewState extends State<CalculatorView> {
                         const SizedBox(width: 10),
                         calcButton(
                             'π', Colors.white10, () => buttonPressed('π')),
+                        const SizedBox(width: 10),
+                        calcButton(
+                            'TAX', Colors.white10, () => buttonPressed('tax'))
                       ],
                     ),
                     const SizedBox(height: 10),
