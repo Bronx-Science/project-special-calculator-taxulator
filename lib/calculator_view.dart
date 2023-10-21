@@ -3,9 +3,11 @@ import 'dart:math';
 import 'package:real_calculator_app/calc_button.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
+import 'package:real_calculator_app/tax_rates.dart';
 
 class CalculatorView extends StatefulWidget {
-  const CalculatorView({Key? key}) : super(key: key);
+  final String location;
+  const CalculatorView({Key? key, required this.location}) : super(key: key);
 
   @override
   State<CalculatorView> createState() => _CalculatorViewState();
@@ -17,6 +19,7 @@ class _CalculatorViewState extends State<CalculatorView> {
   String expression = "";
   double equationFontSize = 38.0;
   double resultFontSize = 48.0;
+  final horizontal = ScrollController();
 
   buttonPressed(String buttonText) {
     // used to check if the result contains a decimal
@@ -44,6 +47,21 @@ class _CalculatorViewState extends State<CalculatorView> {
           equation = '-$equation';
         } else {
           equation = equation.substring(1);
+        }
+      } else if (buttonText == 'tax') {
+        if (equation != "0") {
+          equation = '($equation)×(1.00+${stateSalesTaxRates[widget.location]})';
+          print(widget.location);
+        }
+      } else if (buttonText == "sin" || buttonText == "cos") {
+        if (equation == "0" ||
+            equation.endsWith('+') ||
+            equation.endsWith('÷') ||
+            equation.endsWith('%') ||
+            equation.endsWith('-')) {
+          equation = equation + buttonText;
+        } else {
+          equation = '$buttonText($equation)';
         }
       } else if (buttonText == "=") {
         expression = equation;
@@ -83,10 +101,7 @@ class _CalculatorViewState extends State<CalculatorView> {
           backgroundColor: Colors.black54,
           leading: Icon(Icons.settings, color: Theme.of(context).primaryColor),
           actions: const [
-            Padding(
-              padding: EdgeInsets.only(top: 18.0),
-              child: Text('DEG', style: TextStyle(color: Colors.white38)),
-            ),
+            Text('DEG', style: TextStyle(color: Colors.white38)),
             SizedBox(width: 20),
           ],
         ),
@@ -96,49 +111,56 @@ class _CalculatorViewState extends State<CalculatorView> {
             children: [
               Align(
                 alignment: Alignment.bottomRight,
-                child: SingleChildScrollView(
-                  reverse: true,
-                  scrollDirection: Axis.horizontal,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Text(result,
-                                  textAlign: TextAlign.left,
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 80))),
-                          Icon(Icons.more_vert,
-                              color: Theme.of(context).primaryColor, size: 30),
-                          const SizedBox(width: 20),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Text(equation,
-                                style: const TextStyle(
-                                  fontSize: 30,
-                                  color: Colors.white38,
-                                )),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.backspace_outlined,
+                child: RawScrollbar(
+                  thumbVisibility: true,
+                  thickness: 4,
+                  controller: horizontal,
+                  child: SingleChildScrollView(
+                    reverse: true,
+                    controller: horizontal,
+                    scrollDirection: Axis.horizontal,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(result,
+                                    textAlign: TextAlign.left,
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 60))),
+                            Icon(Icons.more_vert,
                                 color: Theme.of(context).primaryColor,
                                 size: 30),
-                            onPressed: () {
-                              buttonPressed("⌫");
-                            },
-                          ),
-                          const SizedBox(width: 20),
-                        ],
-                      )
-                    ],
+                            const SizedBox(width: 20),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Text(equation,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white38,
+                                  )),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.backspace_outlined,
+                                  color: Theme.of(context).primaryColor,
+                                  size: 30),
+                              onPressed: () {
+                                buttonPressed("⌫");
+                              },
+                            ),
+                            const SizedBox(width: 20),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -159,6 +181,9 @@ class _CalculatorViewState extends State<CalculatorView> {
                         const SizedBox(width: 10),
                         calcButton(
                             'π', Colors.white10, () => buttonPressed('π')),
+                        const SizedBox(width: 10),
+                        calcButton(
+                            'TAX', Colors.white10, () => buttonPressed('tax'))
                       ],
                     ),
                     const SizedBox(height: 10),

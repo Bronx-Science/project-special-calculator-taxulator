@@ -1,3 +1,4 @@
+import 'package:real_calculator_app/access_location.dart';
 import 'package:real_calculator_app/calculator_view.dart';
 import 'package:flutter/material.dart';
 
@@ -13,11 +14,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Calculator App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink),
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const CalculatorView(),
+      home: FutureBuilder(
+        future: determinePosition(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData && !snapshot.hasError) {
+            return CalculatorView(location: snapshot.data![0].administrativeArea!);
+          } else {
+            return const SafeArea(child: SizedBox(width: 80.0, height: 80.0, child: Center(child: CircularProgressIndicator())));
+          }
+        },
+      ),
     );
   }
 }
