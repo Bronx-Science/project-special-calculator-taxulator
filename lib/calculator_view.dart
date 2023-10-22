@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:real_calculator_app/access_location.dart';
 import 'package:real_calculator_app/calc_button.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
@@ -50,12 +51,17 @@ class _CalculatorViewState extends State<CalculatorView> {
         }
       } else if (buttonText == 'tax') {
         if (equation != "0") {
-          equation = '($equation)×(1.00+${stateSalesTaxRates[widget.location]})';
+          final double taxRate = stateSalesTaxRatesAbbr[widget.location] ??
+              stateSalesTaxRates[widget.location] ??
+              0.0;
+          equation =
+              '($equation)×(1.00+${stateSalesTaxRates[widget.location]})';
           print(widget.location);
         }
       } else if (buttonText == "sin" || buttonText == "cos") {
-        if (equation == "0" ||
-            equation.endsWith('+') ||
+        if (equation == '0') {
+          equation + buttonText;
+        } else if (equation.endsWith('+') ||
             equation.endsWith('÷') ||
             equation.endsWith('%') ||
             equation.endsWith('-')) {

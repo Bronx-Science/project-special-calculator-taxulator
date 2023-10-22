@@ -1,11 +1,22 @@
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart';
+
+Future<Response> fetchTaxRate(String postalCode) {
+  return get(
+      Uri.parse(
+          'https://sales-tax-by-api-ninjas.p.rapidapi.com/v1/salestax?zip_code=$postalCode'),
+      headers: {
+        'X-RapidAPI-Key': '1cb4d18987msh1658afed41f819dp1a9f31jsnb68285f5c5e1',
+        'X-RapidAPI-Host': 'sales-tax-by-api-ninjas.p.rapidapi.com'
+      });
+}
 
 /// Determine the current position of the device.
 ///
 /// When the location services are not enabled or permissions
 /// are denied the `Future` will return an error.
-Future<List<Placemark>> determinePosition() async {
+Future<Response> determinePosition() async {
   bool serviceEnabled;
   LocationPermission permission;
 
@@ -40,6 +51,11 @@ Future<List<Placemark>> determinePosition() async {
   // When we reach here, permissions are granted and we can
   // continue accessing the position of the device.
   Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.lowest);
-  return placemarkFromCoordinates(position.latitude, position.longitude, localeIdentifier: 'en_US');
+      desiredAccuracy: LocationAccuracy.best,
+      forceAndroidLocationManager: true);
+  print('${position.latitude} ${position.longitude}');
+  List<Placemark> addy = await placemarkFromCoordinates(
+      position.latitude, position.longitude,
+      localeIdentifier: 'en_US');
+  return fetchTaxRate(addy[0]!.postalCode!);
 }

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:ui';
+
 import 'package:real_calculator_app/access_location.dart';
 import 'package:real_calculator_app/calculator_view.dart';
 import 'package:flutter/material.dart';
@@ -18,13 +21,25 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
+      scrollBehavior: const MaterialScrollBehavior().copyWith(
+        dragDevices: {PointerDeviceKind.mouse},
+      ),
       home: FutureBuilder(
         future: determinePosition(),
         builder: (context, snapshot) {
-          if (snapshot.hasData && !snapshot.hasError) {
-            return CalculatorView(location: snapshot.data![0].administrativeArea!);
+          if (snapshot.hasData) {
+            return CalculatorView(
+                location: jsonDecode(snapshot.data!.body)[0]['total_rate']);
           } else {
-            return const SafeArea(child: SizedBox(width: 80.0, height: 80.0, child: Center(child: CircularProgressIndicator())));
+            print(snapshot.connectionState);
+            if (snapshot.hasError) {
+              print(snapshot.error);
+            }
+            return const SafeArea(
+                child: SizedBox(
+                    width: 80.0,
+                    height: 80.0,
+                    child: Center(child: CircularProgressIndicator())));
           }
         },
       ),

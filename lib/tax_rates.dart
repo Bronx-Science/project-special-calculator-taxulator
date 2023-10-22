@@ -1,4 +1,4 @@
-Map<String, double> stateSalesTaxRates = {
+Map<String, double> stateSalesTaxRatesAbbr = {
   'AL': 0.04,
   'AK': 0.0, // No statewide sales tax
   'AZ': 0.056,
@@ -49,4 +49,57 @@ Map<String, double> stateSalesTaxRates = {
   'WV': 0.06,
   'WI': 0.05,
   'WY': 0.04,
+};
+
+Map<String, double> stateSalesTaxRates = {
+  'Alabama': 0.04,
+  'Alaska': 0.0, // No statewide sales tax
+  'Arizona': 0.056,
+  'Arkansas': 0.065,
+  'California': 0.0725,
+  'Colorado': 0.029,
+  'Connecticut': 0.0635,
+  'Delaware': 0.0, // No statewide sales tax
+  'Florida': 0.06,
+  'Georgia': 0.04,
+  'Hawaii': 0.04,
+  'Idaho': 0.06,
+  'Illinois': 0.0625,
+  'Indiana': 0.07,
+  'Iowa': 0.06,
+  'Kansas': 0.065,
+  'Kentucky': 0.06,
+  'Louisiana': 0.0445,
+  'Maine': 0.055,
+  'Maryland': 0.06,
+  'Massachusetts': 0.0625,
+  'Michigan': 0.06,
+  'Minnesota': 0.06875,
+  'Mississippi': 0.07,
+  'Missouri': 0.04225,
+  'Montana': 0.0, // No statewide sales tax
+  'Nebraska': 0.055,
+  'Nevada': 0.0685,
+  'New Hampshire': 0.0, // No statewide sales tax
+  'New Jersey': 0.06625,
+  'New Mexico': 0.05125,
+  'New York': 0.04,
+  'North Carolina': 0.0475,
+  'North Dakota': 0.05,
+  'Ohio': 0.0575,
+  'Oklahoma': 0.045,
+  'Oregon': 0.0, // No statewide sales tax
+  'Pennsylvania': 0.06,
+  'Rhode Island': 0.07,
+  'South Carolina': 0.06,
+  'South Dakota': 0.0, // No statewide sales tax
+  'Tennessee': 0.07,
+  'Texas': 0.0625,
+  'Utah': 0.0485,
+  'Vermont': 0.06,
+  'Virginia': 0.043,
+  'Washington': 0.065,
+  'West Virginia': 0.06,
+  'Wisconsin': 0.05,
+  'Wyoming': 0.04,
 };
