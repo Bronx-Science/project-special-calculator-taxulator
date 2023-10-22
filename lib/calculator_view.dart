@@ -1,9 +1,12 @@
 import 'dart:math';
 
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:provider/provider.dart';
 import 'package:real_calculator_app/access_location.dart';
 import 'package:real_calculator_app/calc_button.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
+import 'package:real_calculator_app/main.dart';
 import 'package:real_calculator_app/tax_rates.dart';
 
 class CalculatorView extends StatefulWidget {
@@ -96,12 +99,29 @@ class _CalculatorViewState extends State<CalculatorView> {
 
   @override
   Widget build(BuildContext context) {
+    ColorData colorData = Provider.of<ColorData>(context);
     return Scaffold(
         backgroundColor: Colors.black54,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.black54,
-          leading: Icon(Icons.settings, color: Theme.of(context).primaryColor),
+          leading: IconButton(
+            icon: const Icon(Icons.settings),
+            color: colorData.color,
+            onPressed: () => showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                      titlePadding: const EdgeInsets.all(0),
+                      contentPadding: const EdgeInsets.all(0),
+                      content: SingleChildScrollView(
+                        child: ColorPicker(
+                          pickerColor: colorData.color,
+                          onColorChanged: (Color color) => colorData.setColor(color),
+                          portraitOnly: false,
+                        ),
+                      ),
+                    )),
+          ),
           actions: const [
             Text('DEG', style: TextStyle(color: Colors.white38)),
             SizedBox(width: 20),
@@ -134,7 +154,7 @@ class _CalculatorViewState extends State<CalculatorView> {
                                     style: const TextStyle(
                                         color: Colors.white, fontSize: 60))),
                             Icon(Icons.more_vert,
-                                color: Theme.of(context).primaryColor,
+                                color: colorData.color,
                                 size: 30),
                             const SizedBox(width: 20),
                           ],
@@ -152,7 +172,7 @@ class _CalculatorViewState extends State<CalculatorView> {
                             ),
                             IconButton(
                               icon: Icon(Icons.backspace_outlined,
-                                  color: Theme.of(context).primaryColor,
+                                  color: colorData.color,
                                   size: 30),
                               onPressed: () {
                                 buttonPressed("⌫");
@@ -279,7 +299,7 @@ class _CalculatorViewState extends State<CalculatorView> {
                           ],
                         ),
                         const SizedBox(width: 10),
-                        calcButton('=', Theme.of(context).primaryColor,
+                        calcButton('=', colorData.color,
                             () => buttonPressed('=')),
                       ],
                     )
