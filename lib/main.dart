@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Calculator App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan),
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return CalculatorView(
-                location: jsonDecode(snapshot.data!.body)[0]['total_rate']);
+                taxRate: jsonDecode(snapshot.data!.body)[0]['total_rate']);
           } else {
             print(snapshot.connectionState);
             if (snapshot.hasError) {

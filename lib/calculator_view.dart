@@ -7,8 +7,8 @@ import 'package:math_expressions/math_expressions.dart';
 import 'package:real_calculator_app/tax_rates.dart';
 
 class CalculatorView extends StatefulWidget {
-  final String location;
-  const CalculatorView({Key? key, required this.location}) : super(key: key);
+  final String taxRate;
+  const CalculatorView({Key? key, required this.taxRate}) : super(key: key);
 
   @override
   State<CalculatorView> createState() => _CalculatorViewState();
@@ -51,16 +51,12 @@ class _CalculatorViewState extends State<CalculatorView> {
         }
       } else if (buttonText == 'tax') {
         if (equation != "0") {
-          final double taxRate = stateSalesTaxRatesAbbr[widget.location] ??
-              stateSalesTaxRates[widget.location] ??
-              0.0;
-          equation =
-              '($equation)×(1.00+${stateSalesTaxRates[widget.location]})';
-          print(widget.location);
+          equation = '($equation)×(1.00+${widget.taxRate})';
+          print(widget.taxRate);
         }
       } else if (buttonText == "sin" || buttonText == "cos") {
         if (equation == '0') {
-          equation + buttonText;
+          equation = buttonText;
         } else if (equation.endsWith('+') ||
             equation.endsWith('÷') ||
             equation.endsWith('%') ||
