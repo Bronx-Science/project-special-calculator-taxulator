@@ -2,12 +2,10 @@ import 'dart:math';
 
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:provider/provider.dart';
-import 'package:real_calculator_app/access_location.dart';
-import 'package:real_calculator_app/calc_button.dart';
+import 'package:taxulator/calc_button.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
-import 'package:real_calculator_app/main.dart';
-import 'package:real_calculator_app/tax_rates.dart';
+import 'package:taxulator/main.dart';
 
 class CalculatorView extends StatefulWidget {
   final String taxRate;

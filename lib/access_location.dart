@@ -57,5 +57,6 @@ Future<Response> determinePosition() async {
   List<Placemark> addy = await placemarkFromCoordinates(
       position.latitude, position.longitude,
       localeIdentifier: 'en_US');
-  return fetchTaxRate(addy[0]!.postalCode!);
+  print(addy[0]);
+  return fetchTaxRate(addy[0].postalCode!);
 }

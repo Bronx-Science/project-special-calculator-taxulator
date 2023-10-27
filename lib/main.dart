@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:provider/provider.dart';
-import 'package:real_calculator_app/access_location.dart';
-import 'package:real_calculator_app/calculator_view.dart';
+import 'package:taxulator/access_location.dart';
+import 'package:taxulator/calculator_view.dart';
 import 'package:flutter/material.dart';
+import 'package:taxulator/map.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -68,8 +69,9 @@ class RealMaterialApp extends StatelessWidget {
         future: determinePosition(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return CalculatorView(
-                taxRate: jsonDecode(snapshot.data!.body)[0]['total_rate']);
+            // return CalculatorView(
+            //     taxRate: jsonDecode(snapshot.data!.body)[0]['total_rate']);
+            return MapView();
           } else {
             print(snapshot.connectionState);
             if (snapshot.hasError) {

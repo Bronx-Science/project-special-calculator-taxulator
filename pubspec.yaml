@@ -1,4 +1,4 @@
-name: real_calculator_app
+name: taxulator
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -42,6 +42,7 @@ dependencies:
   shared_preferences: ^2.2.2
   provider: ^6.0.5
   flutter_colorpicker: ^1.0.3
+  mapbox_maps_flutter: ^0.4.5
 
 dev_dependencies:
   flutter_test:
