@@ -7,7 +7,7 @@ Widget calcButton(
     child: ElevatedButton(
       onPressed: buttonPressed,
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.all(1),
+        padding: const EdgeInsets.all(1),
           minimumSize: Size(75, buttonText == '=' ? 150 : 75),
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20))),

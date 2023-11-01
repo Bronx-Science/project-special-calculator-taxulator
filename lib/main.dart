@@ -3,13 +3,13 @@ import 'dart:ui';
 
 import 'package:provider/provider.dart';
 import 'package:taxulator/access_location.dart';
-import 'package:taxulator/calculator_view.dart';
 import 'package:flutter/material.dart';
+import 'package:taxulator/calculator_view.dart';
 import 'package:taxulator/map.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class ColorData extends ChangeNotifier {
@@ -36,7 +36,7 @@ class ColorData extends ChangeNotifier {
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class RealMaterialApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Calculator App',
+      title: 'Taxulator',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: Provider.of<ColorData>(context).color),
@@ -69,13 +69,26 @@ class RealMaterialApp extends StatelessWidget {
         future: determinePosition(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            // return CalculatorView(
-            //     taxRate: jsonDecode(snapshot.data!.body)[0]['total_rate']);
-            return MapView();
+            return CalculatorView(
+                taxRate: jsonDecode(snapshot.data!.body)[0]['total_rate']);
           } else {
             print(snapshot.connectionState);
             if (snapshot.hasError) {
               print(snapshot.error);
+              return SafeArea(
+                  child: Column(
+                children: [
+                  Text(
+                      'There was an issue fetching your location, please tap on a desired location twice.',
+                      style: TextStyle(fontSize: 16)),
+                  Center(
+                    child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height - 100,
+                        child: const MapView()),
+                  ),
+                ],
+              ));
             }
             return const SafeArea(
                 child: SizedBox(

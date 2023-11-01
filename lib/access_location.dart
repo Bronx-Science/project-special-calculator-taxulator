@@ -60,3 +60,17 @@ Future<Response> determinePosition() async {
   print(addy[0]);
   return fetchTaxRate(addy[0].postalCode!);
 }
+
+Future<String> fetchPostalCode(
+    {required double latitude, required double longitude}) async {
+  List<Placemark> addy = await placemarkFromCoordinates(latitude, longitude,
+      localeIdentifier: 'en_US');
+  return addy[0].postalCode!;
+}
+
+Future<Response> fetchTaxRateManual(
+    {required double latitude, required double longitude}) async {
+  String postalCode =
+      await fetchPostalCode(latitude: latitude, longitude: longitude);
+  return fetchTaxRate(postalCode);
+}

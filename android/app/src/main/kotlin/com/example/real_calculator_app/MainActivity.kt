@@ -1,4 +1,4 @@
-package com.example.real_calculator_app
+package com.fahimh.taxulator
 
 import io.flutter.embedding.android.FlutterActivity
 
